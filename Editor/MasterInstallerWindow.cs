@@ -29,7 +29,7 @@ namespace SimpleMan.Installer
         public static void Init()
         {
             InstallWindow window = (InstallWindow)EditorWindow.GetWindow(typeof(InstallWindow));
-            window.titleContent = new GUIContent("Simple Man solutions");
+            window.titleContent = new GUIContent("Simple Man solutions installer");
             window.minSize = new Vector2(600, 400);
             window.Show();
 
@@ -112,19 +112,38 @@ namespace SimpleMan.Installer
                         EditorGUILayout.HelpBox(
                             "One or more of dependencies was not found. " +
                             "Import and install the dependencies first", MessageType.Error);
+
+                        GUI.enabled = true;
                     }
 
-                    string buttonName = IsImported(currentTabData.path) ? "Reinstall" : "Install";
-                    if (GUILayout.Button(buttonName, GUILayout.Height(30)))
+                    if (IsImported(currentTabData.mainPackagePath))
                     {
-                        AssetDatabase.ImportPackage(currentTabData.mainPackagePath, true);
+                        string buttonName = IsIstalled(currentTabData.path) ? "Reinstall" : "Install";
+                        if (GUILayout.Button(buttonName, GUILayout.Height(30)))
+                        {
+                            AssetDatabase.ImportPackage(currentTabData.mainPackagePath, true);
+                        }
                     }
+                    else
+                    {
+                        if (GUILayout.Button("Download", GUILayout.Height(30)))
+                        {
+                            Application.OpenURL(currentTabData.downloadURL);
+                        }
+                    }
+
+                    GUILayout.BeginHorizontal();
                     if (GUILayout.Button("Documentation", GUILayout.Height(20)))
                     {
                         Application.OpenURL(currentTabData.documentationURL);
                     }
 
-                    GUI.enabled = true;
+                    if (GUILayout.Button("Check updates", GUILayout.Height(20)))
+                    {
+                        Application.OpenURL(currentTabData.downloadURL);
+                    }
+                    GUILayout.EndHorizontal();
+
                 }
                 DrawInstallButton();
 
@@ -135,23 +154,24 @@ namespace SimpleMan.Installer
             GUILayout.EndHorizontal();
         }
 
-        private void Install(int index)
-        {
-
-        }
-
         protected bool[] GetDependenciesInstalledState(FDependency[] datas)
         {
             bool[] result = new bool[datas.Length];
             for (int i = 0; i < datas.Length; i++)
             {
-                result[i] = IsImported(datas[i].path);
+                result[i] = IsIstalled(datas[i].path);
             }
 
             return result.ToArray();
         }
 
-        protected bool IsImported(string path)
+        private bool IsImported(string packagePath)
+        {
+            var mainPackage = AssetDatabase.LoadAssetAtPath<Object>(packagePath);
+            return mainPackage != null;
+        }
+
+        protected bool IsIstalled(string path)
         {
             string[] subfolders = AssetDatabase.GetSubFolders(path);
             return subfolders.Length > 1;

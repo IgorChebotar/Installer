@@ -42,8 +42,9 @@ namespace SimpleMan.Installer
                 GUILayout.Space(40);
 
                 _datas[i].name = EditorGUILayout.TextField("Name", _datas[i].name);
-                _datas[i].path = EditorGUILayout.TextField("Path", _datas[i].path);
                 _datas[i].documentationURL = EditorGUILayout.TextField("Documentation URL", _datas[i].documentationURL);
+                _datas[i].downloadURL = EditorGUILayout.TextField("Download URL", _datas[i].downloadURL);
+                _datas[i].path = EditorGUILayout.TextField("Path", _datas[i].path);
                 _datas[i].mainPackagePath = EditorGUILayout.TextField("Main Package Path", _datas[i].mainPackagePath);
                 _datas[i].demoPackagePath = EditorGUILayout.TextField("Demo Package Path", _datas[i].demoPackagePath);
 
