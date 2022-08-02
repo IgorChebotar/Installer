@@ -24,7 +24,7 @@ namespace SimpleMan.Installer
 
 
         //------METHODS
-        //[MenuItem("Tools/Simple Man/Master Installer", priority = 11)]
+        [MenuItem("Tools/Simple Man/Master Installer", priority = 11)]
         public static void Init()
         {
             InstallWindow window = (InstallWindow)EditorWindow.GetWindow(typeof(InstallWindow));
@@ -111,8 +111,6 @@ namespace SimpleMan.Installer
                         EditorGUILayout.HelpBox(
                             "One or more of dependencies was not found. " +
                             "Import and install the dependencies first", MessageType.Error);
-
-                        GUI.enabled = true;
                     }
 
                     if (IsImported(currentTabData.mainPackagePath))
@@ -142,7 +140,7 @@ namespace SimpleMan.Installer
                         Application.OpenURL(currentTabData.downloadURL);
                     }
                     GUILayout.EndHorizontal();
-
+                    GUI.enabled = true;
                 }
                 DrawInstallButton();
 
