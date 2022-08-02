@@ -128,6 +128,7 @@ namespace SimpleMan.Installer
                             Application.OpenURL(currentTabData.downloadURL);
                         }
                     }
+                    GUI.enabled = true;
 
                     GUILayout.BeginHorizontal();
                     if (GUILayout.Button("Documentation", GUILayout.Height(20)))
@@ -140,7 +141,6 @@ namespace SimpleMan.Installer
                         Application.OpenURL(currentTabData.downloadURL);
                     }
                     GUILayout.EndHorizontal();
-                    GUI.enabled = true;
                 }
                 DrawInstallButton();
 
