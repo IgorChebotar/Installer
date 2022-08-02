@@ -43,6 +43,12 @@ namespace SimpleMan.Installer
 
         private void OnGUI()
         {
+            if (_tabDatas.Length == 0)
+            {
+                Init();
+                return;
+            }
+
             Color defaultColor = GUI.color;
             GUILayout.BeginHorizontal();
             
