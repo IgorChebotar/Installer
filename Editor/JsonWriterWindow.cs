@@ -18,7 +18,7 @@ namespace SimpleMan.Installer
 
 
         //------METHODS
-        //[MenuItem("Tools/Simple Man/Plugin Info Writer", priority = 11)]
+        [MenuItem("Tools/Simple Man/Plugin Info Writer", priority = 11)]
         public static void Init()
         {
             if (EditorWindow.HasOpenInstances<PluginInfoWriterWindow>())

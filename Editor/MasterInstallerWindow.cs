@@ -24,7 +24,7 @@ namespace SimpleMan.Installer
 
 
         //------METHODS
-        [MenuItem("Tools/Simple Man/Master Installer", priority = 11)]
+        //[MenuItem("Tools/Simple Man/Master Installer", priority = 11)]
         public static void Init()
         {
             InstallWindow window = (InstallWindow)EditorWindow.GetWindow(typeof(InstallWindow));
