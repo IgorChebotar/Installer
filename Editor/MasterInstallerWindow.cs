@@ -13,7 +13,6 @@ namespace SimpleMan.Installer
         private static FPluginData[] _tabDatas = System.Array.Empty<FPluginData>();
         private static GUIStyle _labelStyle = new GUIStyle();
         private static Color _unpressedTabButtonColor = new Color(0.8f, 0.8f, 0.8f);
-        private static Color _pressedTabButtonColor = Color.white;
 
 
 
@@ -25,7 +24,7 @@ namespace SimpleMan.Installer
 
 
         //------METHODS
-        [MenuItem("Tools/Simple Man/Master Installer")]
+        [MenuItem("Tools/Simple Man/Master Installer", priority = 11)]
         public static void Init()
         {
             InstallWindow window = (InstallWindow)EditorWindow.GetWindow(typeof(InstallWindow));

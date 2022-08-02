@@ -18,7 +18,7 @@ namespace SimpleMan.Installer
 
 
         //------METHODS
-        [MenuItem("Tools/Simple Man/Plugin Info Writer")]
+        //[MenuItem("Tools/Simple Man/Plugin Info Writer", priority = 11)]
         public static void Init()
         {
             if (EditorWindow.HasOpenInstances<PluginInfoWriterWindow>())
@@ -37,6 +37,9 @@ namespace SimpleMan.Installer
 
         private void OnGUI()
         {
+            EditorGUILayout.HelpBox(
+                "This is internal config window for Simple Man team only!", MessageType.Warning);
+
             for (int i = 0; i < _datas.Length; i++)
             {
                 GUILayout.Space(40);
