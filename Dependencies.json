@@ -1,1 +1,41 @@
-[{"name":"Universal utilities","downloadURL":"https://github.com/IgorChebotar/Utilities/releases","documentationURL":"https://github.com/IgorChebotar/Utilities#readme","path":"Assets/Plugins/SimpleMan/Utilities","mainPackagePath":"Assets/Plugins/SimpleMan/Utilities/Editor/MainPackage.unitypackage","demoPackagePath":"","dependencies":[{"name":"Odin inspector","path":"Assets/Plugins/Sirenix/Odin Inspector","url":"https://assetstore.unity.com/packages/tools/utilities/odin-inspector-and-serializer-89041"}]},{"name":"Zones","downloadURL":"https://github.com/IgorChebotar/Zones/releases","documentationURL":"https://github.com/IgorChebotar/Zones#readme","path":"Assets/Plugins/SimpleMan/Zones","mainPackagePath":"Assets/Plugins/SimpleMan/Zones/Editor/MainPackage.unitypackage","demoPackagePath":"","dependencies":[{"name":"Universal utilities","path":"Assets/Plugins/SimpleMan/Utilities","url":"https://github.com/IgorChebotar/Utilities/releases"},{"name":"Odin inspector","path":"Assets/Plugins/Sirenix/Odin Inspector","url":"https://assetstore.unity.com/packages/tools/utilities/odin-inspector-and-serializer-89041"}]},{"name":"Visual raycast","downloadURL":"https://github.com/IgorChebotar/VisualRaycast/releases","documentationURL":"https://github.com/IgorChebotar/VisualRaycast#readme","path":"Assets/Plugins/SimpleMan/VisualRaycast","mainPackagePath":"Assets/Plugins/SimpleMan/VisualRaycast/Editor/MainPackage.unitypackage","demoPackagePath":null,"dependencies":[{"name":"Universal utilities","path":"Assets/Plugins/SimpleMan/Utilities","url":"https://github.com/IgorChebotar/Utilities/releases"}]}]
+{
+    "datas": [
+        {
+            "name": "Utilities",
+            "downloadURL": "https://github.com/IgorChebotar/Utilities/releases",
+            "documentationURL": "https://github.com/IgorChebotar/Utilities/blob/main/README.md",
+            "path": "Assets/Plugins/SimpleMan/Utilities"
+        },
+	{
+            "name": "Async operations",
+            "downloadURL": "https://github.com/IgorChebotar/AsyncOperations/releases",
+            "documentationURL": "https://github.com/IgorChebotar/AsyncOperations/blob/main/README.md",
+            "path": "Assets/Plugins/SimpleMan/AsyncOperations",
+            "dependencies": [
+                {
+                    "name": "Simple man: Utilities",
+                    "path": "Assets/Plugins/SimpleMan/Utilities",
+                    "url": "https://github.com/IgorChebotar/Utilities/releases"
+                }
+            ]
+        },
+	{
+            "name": "State machine",
+            "downloadURL": "https://github.com/IgorChebotar/StateMachine/releases",
+            "documentationURL": "https://github.com/IgorChebotar/StateMachine/blob/main/README.md",
+            "path": "Assets/Plugins/SimpleMan/StateMachine",
+            "dependencies": [
+                {
+                    "name": "Simple man: Utilities",
+                    "path": "Assets/Plugins/SimpleMan/Utilities",
+                    "url": "https://github.com/IgorChebotar/Utilities/releases"
+                },
+		{
+                    "name": "Simple man: Async operations",
+                    "path": "Assets/Plugins/SimpleMan/AsyncOperations",
+                    "url": "https://github.com/IgorChebotar/AsyncOperations/releases"
+                }
+            ]
+        }
+    ]
+}

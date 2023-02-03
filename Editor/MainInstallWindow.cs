@@ -6,34 +6,45 @@ using UnityEngine;
 
 namespace SimpleMan.Installer
 {
-    public class InstallWindow : EditorWindow
+    public class MainInstallWindow : EditorWindow
     {
-        //------FIELDS
         private const string DEPENDENCIES_JSON_PATH = "/Plugins/SimpleMan/Installer/Dependencies.json";
-        private static FPluginData[] _tabDatas = System.Array.Empty<FPluginData>();
+        private static PluginData[] _tabDatas = System.Array.Empty<PluginData>();
         private static GUIStyle _labelStyle = new GUIStyle();
         private static Color _unpressedTabButtonColor = new Color(0.8f, 0.8f, 0.8f);
 
 
 
 
-        //------PROPERTIES
         public static int CurrentTabIndex { get; private set; } = 0;
 
 
 
 
-        //------METHODS
-        [MenuItem("Tools/Simple Man/Master Installer", priority = 11)]
+        [MenuItem("Tools/Simple Man/Main Installer", priority = 11)]
         public static void Init()
         {
-            InstallWindow window = (InstallWindow)EditorWindow.GetWindow(typeof(InstallWindow));
+            //_tabDatas = new PluginData[]
+            //{
+            //    new PluginData(
+            //        "Utilities",
+            //        "DownloadURL",
+            //        "DocURL",
+            //        "FolderPath",
+            //        new PluginDependencyData[] { new PluginDependencyData("Depencency name", "Dependency path", "DepencecyURL")})
+            //};
+
+            //PluginsCollection collection = new PluginsCollection(_tabDatas);
+            //string jsonText = JsonUtility.ToJson(collection, true);
+            //File.WriteAllText(Application.dataPath + DEPENDENCIES_JSON_PATH, jsonText);
+
+            MainInstallWindow window = (MainInstallWindow)EditorWindow.GetWindow(typeof(MainInstallWindow));
             window.titleContent = new GUIContent("Simple Man solutions installer");
             window.minSize = new Vector2(600, 400);
             window.Show();
 
             string jsonText = File.ReadAllText(Application.dataPath + DEPENDENCIES_JSON_PATH);
-            _tabDatas = JsonConvert.DeserializeObject<FPluginData[]>(jsonText);
+            _tabDatas = JsonUtility.FromJson<PluginsCollection>(jsonText).datas;
 
             _labelStyle.fontSize = 15;
             _labelStyle.fontStyle = FontStyle.Bold;
@@ -75,7 +86,7 @@ namespace SimpleMan.Installer
             {
                 GUILayout.BeginVertical();
 
-                FPluginData currentTabData = _tabDatas[CurrentTabIndex];
+                PluginData currentTabData = _tabDatas[CurrentTabIndex];
                 bool[] dependenciesExistState = GetDependenciesInstalledState(currentTabData.dependencies);
                 bool allright = dependenciesExistState.All(x => x == true);
 
@@ -84,12 +95,18 @@ namespace SimpleMan.Installer
                     GUILayout.Space(20);
                     GUILayout.Label(currentTabData.name, _labelStyle);
                     GUILayout.Space(10);
+
+                    if (currentTabData.dependencies == null)
+                        return;
+
                     GUILayout.Label("Dependencies:");
                 }
                 DrawHead();
 
                 void DrawDependencies()
                 {
+                    if (currentTabData.dependencies == null)
+                        return;
 
                     for (int i = 0; i < currentTabData.dependencies.Length; i++)
                     {
@@ -119,12 +136,13 @@ namespace SimpleMan.Installer
                             "Import and install the dependencies first", MessageType.Error);
                     }
 
-                    if (IsImported(currentTabData.mainPackagePath))
+
+                    if (IsImported(currentTabData.path))
                     {
                         string buttonName = IsIstalled(currentTabData.path) ? "Reinstall" : "Install";
                         if (GUILayout.Button(buttonName, GUILayout.Height(30)))
                         {
-                            AssetDatabase.ImportPackage(currentTabData.mainPackagePath, true);
+                            AssetDatabase.ImportPackage(currentTabData.path + "/Editor/MainPackage.unitypackage", true);
                         }
                     }
                     else
@@ -157,8 +175,11 @@ namespace SimpleMan.Installer
             GUILayout.EndHorizontal();
         }
 
-        protected bool[] GetDependenciesInstalledState(FDependency[] datas)
+        protected bool[] GetDependenciesInstalledState(PluginDependencyData[] datas)
         {
+            if (datas == null)
+                return new bool[] { true };
+
             bool[] result = new bool[datas.Length];
             for (int i = 0; i < datas.Length; i++)
             {
@@ -168,16 +189,17 @@ namespace SimpleMan.Installer
             return result.ToArray();
         }
 
-        private bool IsImported(string packagePath)
-        {
-            var mainPackage = AssetDatabase.LoadAssetAtPath<Object>(packagePath);
-            return mainPackage != null;
-        }
-
         protected bool IsIstalled(string path)
         {
             string[] subfolders = AssetDatabase.GetSubFolders(path);
             return subfolders.Length > 1;
+        }
+
+        private bool IsImported(string path)
+        {
+            string packagePath = path + "/Editor/MainPackage.unitypackage";
+            var mainPackage = AssetDatabase.LoadAssetAtPath<Object>(packagePath);
+            return mainPackage != null;
         }
     }
 }
