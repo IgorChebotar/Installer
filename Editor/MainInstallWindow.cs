@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Linq;
-using Unity.Plastic.Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
 
@@ -24,20 +23,6 @@ namespace SimpleMan.Installer
         [MenuItem("Tools/Simple Man/Main Installer", priority = 11)]
         public static void Init()
         {
-            //_tabDatas = new PluginData[]
-            //{
-            //    new PluginData(
-            //        "Utilities",
-            //        "DownloadURL",
-            //        "DocURL",
-            //        "FolderPath",
-            //        new PluginDependencyData[] { new PluginDependencyData("Depencency name", "Dependency path", "DepencecyURL")})
-            //};
-
-            //PluginsCollection collection = new PluginsCollection(_tabDatas);
-            //string jsonText = JsonUtility.ToJson(collection, true);
-            //File.WriteAllText(Application.dataPath + DEPENDENCIES_JSON_PATH, jsonText);
-
             MainInstallWindow window = (MainInstallWindow)EditorWindow.GetWindow(typeof(MainInstallWindow));
             window.titleContent = new GUIContent("Simple Man solutions installer");
             window.minSize = new Vector2(600, 400);
@@ -96,10 +81,8 @@ namespace SimpleMan.Installer
                     GUILayout.Label(currentTabData.name, _labelStyle);
                     GUILayout.Space(10);
 
-                    if (currentTabData.dependencies == null)
-                        return;
-
-                    GUILayout.Label("Dependencies:");
+                    if (currentTabData.dependencies != null)
+                        GUILayout.Label("Dependencies:");
                 }
                 DrawHead();
 
@@ -200,6 +183,23 @@ namespace SimpleMan.Installer
             string packagePath = path + "/Editor/MainPackage.unitypackage";
             var mainPackage = AssetDatabase.LoadAssetAtPath<Object>(packagePath);
             return mainPackage != null;
+        }
+
+        private void CreateEmptyDependenciesFile()
+        {
+            _tabDatas = new PluginData[]
+            {
+                new PluginData(
+                    "Utilities",
+                    "DownloadURL",
+                    "DocURL",
+                    "FolderPath",
+                    new PluginDependencyData[] { new PluginDependencyData("Depencency name", "Dependency path", "DepencecyURL")})
+            };
+
+            PluginsCollection collection = new PluginsCollection(_tabDatas);
+            string jsonText = JsonUtility.ToJson(collection, true);
+            File.WriteAllText(Application.dataPath + DEPENDENCIES_JSON_PATH, jsonText);
         }
     }
 }
